@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Introdução ao Vue</title>
+    <script src="https://unpkg.com/vue"></script> 
+</head>
+<body>
+    
+    <!-- 
+        v-for
+        table
+        list
+        v-once
+        filters
+        methods
+        computed
+        watch
+    -->
+
+    <div id="app">
+        
+        <gui-titulo v-bind:titulo="meuTitulo"></gui-titulo>
+        <input type="text" v-model="meuTitulo">
+
+        <p v-once>{{ meuTitulo }}</p>
+    
+        <gui-tabela v-bind:titulos="['Título', 'Descricao', 'Link']" v-bind:registros="registros"></gui-tabela>
+
+        <p v-html="html"></p>
+
+        <p> {{23.9899999999 | TrataValor}} </p> <!-- => chama a função TrataValor, dentro de filters -->
+
+        <ul>
+            <li v-for="reg in registros">
+                {{ reg.titulo }} - {{ reg.descricao }} - {{ reg.link }} - {{ reg.valor | TrataValor}}
+            </li>
+            <p>{{ valorTotal() | TrataValor }}</p> <!-- method -->
+            <p>{{ valorTotalComputado | TrataValor }}</p> <!-- computed -->
+        </ul>
+        
+        <p>
+            <input type="text" v-model="nome">  
+        </p>
+        <p> Tamanho: {{ tamanhoTexto }}</p>
+        <!-- <p v-if="tamanhoTexto>tamanhoMax" > {{alerta()}} </p> -->
+    </div>    
+
+    <script>
+        
+        Vue.component('gui-titulo', {
+            props:['titulo'],
+            template:'<h2>{{ titulo }}</h2>'
+        });
+
+        Vue.component('gui-tabela', {
+            props:['titulos', 'registros'],
+            template: '<table style="width:100%">'+
+            '<thead>'+
+                '<tr>'+
+                    '<th v-for="titulo in titulos">{{ titulo }}</th>'+
+                '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+                '<tr v-for="registro in registros">'+
+                    '<td v-for="item in registro">{{item}}</td>'+
+                '</tr>'+
+            '</tbody>'+
+        '</table>'
+        });
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                meuTitulo:'Titulo do Data',
+                registros:[
+                    {titulo:'Titulo1', descricao:'descricao1', link:'www.google1.com', valor:25.5266},
+                    {titulo:'Titulo2', descricao:'descricao2', link:'www.google2.com', valor:40.8544},
+                    {titulo:'Titulo3', descricao:'descricao3', link:'www.google3.com', valor:10.5411},
+                ],
+                html:'<a href="#">Esse é um link</a>',
+                nome:'',
+                tamanhoTexto:0,
+                tamanhoMax:5,
+            },
+            filters:{
+                TrataValor: function(valor){
+                    return ('R$' + valor.toFixed(2)).replace('.',',')
+                }
+            },
+            methods:{
+                valorTotal: function(){
+                    var total=0;
+                    for(item of this.registros){
+                        total += item.valor;
+                    } 
+                    return total;
+                },
+                alerta: function(){
+                    alert('ficou maior');
+                }
+            },
+            computed:{
+                valorTotalComputado: function(){
+                    var total=0;
+                    for(item of this.registros){
+                        total += item.valor;
+                    }
+                    return total;
+                }
+            },
+            watch:{
+                nome:function(conteudo){
+                    this.tamanhoTexto = conteudo.length;
+                    this.nome = conteudo.toUpperCase();
+                    if(this.tamanhoTexto>this.tamanhoMax) alert('ficou maior!')
+                }
+            }
+        });
+    </script> 
+
+</body>
+</html>

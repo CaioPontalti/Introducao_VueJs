@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Introdução ao Vue</title>
+    <script src="https://unpkg.com/vue"></script> 
+</head>
+<body>
+    
+    <!-- Formulário -->
+
+    <div id="app">
+        
+        <gui-titulo titulo="Formulários"></gui-titulo>
+        
+        <p>Texto: {{ texto }}</p>
+        <p>
+            <input type="text" v-model="texto">
+        </p>
+
+        <p>TextArea: {{ textArea }}</p> <!-- sem quebra de linha -->
+        <p style="white-space:pre-line">{{ textArea }}</p> <!-- com quebra de linha -->
+        <p>
+            <textarea v-model="textArea" rows="8" cols="80"></textarea>
+        </p>
+
+        <p>checkbox</p>
+        <input type="checkbox" id="chck" v-model="meuCheckbox">
+        <label for="chck">{{ meuCheckbox }}</label>
+
+
+        <p>Multiplos checkbox: {{ notificacoes }} </p>
+        <input type="checkbox" id="receberEmail" value="email" v-model="notificacoes">
+        <label for="receberEmail">Receber E-mail</label>
+        <input type="checkbox" id="receberSMS" value="sms" v-model="notificacoes">
+        <label for="receberSMS">Receber SMS</label>
+        <input type="checkbox" id="receberTel" value="ligacao" v-model="notificacoes">
+        <label for="receberTel">Receber Ligação</label>
+
+        <p>RadioButton: {{ sexo }}</p>
+        <p>
+            <input type="radio" v-model="sexo" value="M" id="masculino">
+            <label for="masculino">Masculino</label>
+            <input type="radio" v-model="sexo" value="F" id="feminino">
+            <label for="feminino">Feminino</label> 
+        </p>
+
+        <p>
+            <p>Ano selecionado: {{ ano }}</p>
+            <select v-model="ano">
+                <option disabled>Selecione</option>
+                <option value="17">Ano 2017</option>
+                <option value="18">Ano 2018</option>
+                <option value="19">Ano 2019</option>
+                <option value="20">Ano 2020</option>
+            </select>
+        </p>
+
+        <p>Cores selecionadas: {{ cores }}</p>
+        <select multiple v-model="cores">
+            <option>Azul</option>
+            <option>Verde</option>
+            <option>Braco</option>
+            <option>Vermelho</option>
+        </select>
+
+        <p>Efeito Lazy: {{texto2}}</p>
+        <p><input type="text" v-model.Lazy="texto2"></p>
+
+        <p>Number: {{num}} - {{ typeof num}}</p>
+        <Input type="number" v-model.number="num">
+
+    </div>    
+
+
+    <script>
+        
+        Vue.component('gui-titulo', {
+            props:['titulo'],
+            template:'<h1>{{ titulo }}</h1>'
+        });
+        
+        var app = new Vue({
+            el:"#app",
+            data:{
+                texto:'',
+                textArea:'',
+                meuCheckbox:true,
+                notificacoes:[],
+                sexo:null,
+                ano:null,
+                cores:[],
+                texto2:'',
+                num:null
+            },
+            watch: {
+                num: function(valor){
+                    if(valor.length == 0)
+                        this.num = 0;
+                }
+            },
+        });
+    </script> 
+
+</body>
+</html>

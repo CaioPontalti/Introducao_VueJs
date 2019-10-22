@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Introdução ao Vue</title>
+    <script src="https://unpkg.com/vue"></script> 
+</head>
+<body>
+    
+    <!-- 
+        v-if
+        v-for
+        v-bind
+        v-model
+        v-on:click
+        methods 
+    -->
+
+    <div id="app">
+        {{ msg }}
+        <p v-bind:title=titulo>Teste com o Titulo</p>
+        <p v-if=condicao>Teste do IF com variavel</p>
+        <p v-if="5>8">Teste IF condição no v-if</p>
+        <p v-for="registro in registros">{{ registro.titulo }}</p>
+
+        <p>
+            <button v-if="!clicou" v-on:click="usuarioClicou">Salvar</button>
+            <button v-if="clicou" v-on:click="usuarioClicou">Aguarde...</button>
+        </p>
+
+        <p>
+            <input type="text" v-model="usuario.nome">  
+        </p>
+        <p>Nome: {{ usuario.nome }}</p>
+    </div>    
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                msg: 'Iniciando com o Vue',
+                titulo:"Teste do titulo variavel",
+                condicao:true,
+                registros:[
+                    {titulo:'registro 1'},
+                    {titulo:'registro 2'},
+                    {titulo:'registro 3'},
+                    {titulo:'registro 4'}
+                ],
+                clicou:false,
+                usuario:{nome:""}
+            },
+            methods:{
+                usuarioClicou: function(){
+                    //debugger;
+                    this.clicou = !this.clicou;
+                }
+            }
+        });
+    </script> 
+
+</body>
+</html>
