@@ -257,6 +257,8 @@ a:hover {
   -webkit-transform: translate3d(125px, 0, 0);
           transform: translate3d(125px, 0, 0);
 }
-
+#app{
+  width: 100%
+}
 
 </style>
